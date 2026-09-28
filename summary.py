@@ -1,30 +1,17 @@
-import pandas as pd
-df = pd.read_csv(r'C:\Users\rohit\Downloads\DelhiNCR Restaurants.csv')
-#df = pd.read_csv('DelhiNCR Restaurants.csv')
+import sys
+from pathlib import Path
 
-# Quick preview
-print(df.head())
-print(df.shape)  # Rows, columns
-print(df.columns.tolist())  # Column names
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+from analytics import load_data  # noqa: E402
 
-# Basic overview
+
+df = load_data()
 print("Dataset shape:", df.shape)
-print("\nColumn names:", df.columns.tolist())
-print("\nFirst 5 rows:")
-print(df.head())
-
-# Data summary
-print("\nData info:")
-print(df.info())
-print("\nStats summary:")
-print(df.describe())
-
-# Check missing values
-print("\nMissing values per column:")
-print(df.isnull().sum())
-
-# My Exact First 3 columns
-print("YOUR EXACT COLUMNS:")
+print("\nColumn names:")
 print(df.columns.tolist())
-print("\nFirst 3 rows:")
-print(df.head(3))
+print("\nData types:")
+print(df.dtypes.to_string())
+print("\nMissing values:")
+print(df.isna().sum().to_string())
+print("\nNumeric summary:")
+print(df.select_dtypes(include="number").describe().to_string())
